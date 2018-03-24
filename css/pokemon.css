@@ -60,7 +60,6 @@ span {
 }
 
 #pokeUl li a {
-  margin-top: -1px; /* Prevent double borders */
   font-size: 18px;
   color: black;
   display: flex;
@@ -94,20 +93,7 @@ span {
     header {
         height: 300px;
     }
-    /*#pokeUl {
-        columns: 2;
-        -webkit-columns: 2;
-        -moz-columns: 2;
-        column-gap: 0;
-        -webkit-column-gap: 0;
-        -moz-column-gap: 0;
-    }*/
-    /*#pokeUl li.active:nth-child(10n+1) a {
-        margin-top: 0;
-    }
-    #pokeUl li a {
-        margin-left: -1px;
-    }*/
+
     #pokeUl li.active{
         float: left;
         width: 50%;
@@ -123,20 +109,7 @@ span {
     header {
         height: 350px;
     }
-    /*#pokeUl {
-        columns: 4;
-        -webkit-columns: 4;
-        -moz-columns: 4;
-        column-gap: 0;
-        -webkit-column-gap: 0;
-        -moz-column-gap: 0;
-    }*/
-    /*#pokeUl li.active:nth-child(5n+1) a {
-        margin-top: 0;
-    }
-    #pokeUl li a {
-        margin-left: -1px;
-    }*/
+
     #pokeUl li.active{
         float: left;
         width: 25%;
