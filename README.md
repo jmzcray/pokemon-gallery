@@ -15,4 +15,4 @@ This project is to display Pokemon from number 1 to 151 on a responsive webpage.
 - Considered using lazyload of retrieving Pokemon list for pagination via: https://pokeapi.co/api/v2/pokemon/?offset=20&limit=20 - however there is a restriction on 300 requests per IP, therefore the whole list was retrieved instead
 
 #### To run:
-Simply open up the _pokemon.html_ file or go here; http://jimz.id.au/pokemon-gallery/pokemon.html
+Simply open up the _pokemon.html_ file or go here: http://jimz.id.au/pokemon-gallery/pokemon.html

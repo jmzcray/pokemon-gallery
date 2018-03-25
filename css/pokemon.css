@@ -7,13 +7,23 @@ html, body {
   padding: 0;
 }
 
-header {
+header,
+footer {
     background-image:url("../images/hero-background.jpg");
     color: white;
     background-size: cover;
     height: 250px;
     background-position: 50% 80%;
     background-repeat: no-repeat;
+}
+
+footer {
+    -moz-transform: scale(-1,-1);
+    -o-transform: scale(-1,-1);
+    -webkit-transform: scale(-1,-1);
+    transform: scale(-1,-1);
+    filter: FlipV;
+    -ms-filter: "FlipV";
 }
 
 main {
@@ -28,6 +38,7 @@ a {
 
 h2 {
     padding: 30px 50px;
+    margin-top: 0;
 }
 
 span {
