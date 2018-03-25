@@ -11,7 +11,7 @@ function filterPoke() {
         // removing all the filters in the list
         $(pokeList).removeClass("filter");
         // default to rendering pagination of pokemons in the list
-        paginateList(0, itemsPerPage);
+        paginateList();
         return;
     }
 
@@ -27,12 +27,10 @@ function filterPoke() {
             thisPoke.removeClass("active filter");
         }
     }
-    // paginate the result to show maximum of 20 in the list
+    // paginate the search filter result
     if ($("#pokeUl").children('.filter').length > 0) {
         list = $("#pokeUl").children('.filter');
-        offset = $(list)[0];
-        index = $(list).index(offset);
-        paginateList(index, index+itemsPerPage, list);
+        paginateList(list);
     }
 }
 
@@ -57,62 +55,75 @@ function formatPokeIndex(num) {
 // Function that paginates a list
 // 
 // Parameters
-// start: the index of the first item to be shown
-// end: the index of the last item to be shown
 // list: Optional. if passed, it will paginate passed-in list, otherwise defaults to the whole list
+// direction: Optional. the direction of either 'next' or 'prev' for pagination
 //
-function paginateList(start, end, list) {
+// If no parameters are passed, the default behaviour is to paginate the whole pokemon list from the first pokemon
+//
+function paginateList(list, direction) {
+    var first, start, end;
     if (!list) {
         list = $("#pokeUl").find("li");
-    }
-    $(list).removeClass("active");
-    if (end > list.length-1) {
-        end = list.length;
-        start = (end-itemsPerPage > 0) ? end-itemsPerPage : 0;
-    }
-    if (start < 0) {
+    } 
+    first = getFirstVisibleItem(list);
+    if (direction){
+        switch(direction) {
+            case "next":
+                // determine the next set of pokemon to be display in pagination
+                start = first + itemsPerPage;
+                end = first + itemsPerPage * 2;
+                if (end > list.length-1) {
+                    end = list.length;
+                    start = (end-itemsPerPage > 0) ? end-itemsPerPage : 0;
+                }
+                break;
+            case "prev":
+                // determine the previous set of pokemon to be display in pagination
+                start = first - itemsPerPage;
+                end = first;
+                if (start < 0) {
+                    start = 0;
+                    end = (start+itemsPerPage > list.length) ? list.length : start+itemsPerPage;
+                }
+                break;
+            default:  
+        }
+    } else {
+        // default behaviour of paginating the pokemon list from the first pokemon
         start = 0;
-        end = (start+itemsPerPage > list.length) ? list.length : start+itemsPerPage;
+        end = itemsPerPage;
     }
+
+    $(list).removeClass("active");
     for (var i = start; i < end; i++) {
         $(list[i]).addClass("active");
     }
 }
 
+// return the first visible pokemon in pagination
+function getFirstVisibleItem(list){
+    var offset = $(list).filter('.active')[0];
+    return index = $(list).index(offset);
+}
+
 // next page function for pagination
 function nextPage() {
-    var list, offset, index;
+    var list;
     // if pokemon are filtered by search
     if ($("#pokeUl").children('.filter').length > 0) {
         list = $("#pokeUl").children('.filter');
-        // get the index of the first visible pokemon
-        offset = $(list).filter('.active')[0];
-        index = $(list).index(offset);
-        // get the next set of filtered pokemon for pagination
-        paginateList(index+itemsPerPage, index+itemsPerPage*2, list);
-    } else {
-        offset = $("#pokeUl").find('.active')[0];
-        index = $("#pokeUl").children().index(offset);
-        paginateList(index+itemsPerPage, index+itemsPerPage*2);
     }
+    paginateList(list, "next");
 }
 
 // previous page function for pagination
 function prevPage() {
-    var list, offset, index;
+    var list;
     // if pokemon are filtered by search
     if ($("#pokeUl").children('.filter').length > 0) {
         list = $("#pokeUl").children('.filter');
-        // get the index of the first visibile pokemon
-        offset = $(list).filter('.active')[0];
-        index = $(list).index(offset);
-        // get the previous set of filtered pokemon for pagination
-        paginateList(index-itemsPerPage, index, list);
-    } else {
-        offset = $("#pokeUl").find('.active')[0];
-        index = $("#pokeUl").children().index(offset);
-        paginateList(index-itemsPerPage, index);
     }
+    paginateList(list, "prev");
 }
 
 $(document).ready(function() {
@@ -124,7 +135,7 @@ $(document).ready(function() {
         success: function(data){
             var pokesJson = data.results;
             $("#pokeUl").html(renderPokemonList(pokesJson));
-            paginateList(0, itemsPerPage);
+            paginateList();
         }
     });
 
