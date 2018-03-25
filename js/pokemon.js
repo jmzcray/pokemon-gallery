@@ -10,7 +10,7 @@ function filterPoke() {
     if (!filter.val()) {
         // removing all the filters in the list
         $(pokeList).removeClass("filter");
-        // default to rednering 20 pokemons in the list
+        // default to rendering pagination of pokemons in the list
         paginateList(0, itemsPerPage);
         return;
     }
@@ -23,7 +23,7 @@ function filterPoke() {
             // if the filter matches the pokemon, add class 'filter' to item
             thisPoke.addClass("filter");
         } else {
-            // remove class 'filter' if the search does not match pokemon
+            // remove class 'filter' and hide pokemon if the search does not match pokemon
             thisPoke.removeClass("active filter");
         }
     }
@@ -59,7 +59,7 @@ function formatPokeIndex(num) {
 // Parameters
 // start: the index of the first item to be shown
 // end: the index of the last item to be shown
-// list: Pptional. if passed, it will paginate passed-in list, otherwise defaults to the whole list
+// list: Optional. if passed, it will paginate passed-in list, otherwise defaults to the whole list
 //
 function paginateList(start, end, list) {
     if (!list) {
@@ -79,13 +79,16 @@ function paginateList(start, end, list) {
     }
 }
 
-// next page function for pagination, currently sets at 20 items per page
+// next page function for pagination
 function nextPage() {
     var list, offset, index;
+    // if pokemon are filtered by search
     if ($("#pokeUl").children('.filter').length > 0) {
         list = $("#pokeUl").children('.filter');
-        offset = $(list)[0];
+        // get the index of the first visible pokemon
+        offset = $(list).filter('.active')[0];
         index = $(list).index(offset);
+        // get the next set of filtered pokemon for pagination
         paginateList(index+itemsPerPage, index+itemsPerPage*2, list);
     } else {
         offset = $("#pokeUl").find('.active')[0];
@@ -94,13 +97,16 @@ function nextPage() {
     }
 }
 
-// previous page function for pagination, currently sets at 20 items per page
+// previous page function for pagination
 function prevPage() {
     var list, offset, index;
+    // if pokemon are filtered by search
     if ($("#pokeUl").children('.filter').length > 0) {
         list = $("#pokeUl").children('.filter');
-        offset = $(list)[0];
+        // get the index of the first visibile pokemon
+        offset = $(list).filter('.active')[0];
         index = $(list).index(offset);
+        // get the previous set of filtered pokemon for pagination
         paginateList(index-itemsPerPage, index, list);
     } else {
         offset = $("#pokeUl").find('.active')[0];
