@@ -98,8 +98,6 @@ function paginateList(list, direction) {
     for (var i = start; i < end; i++) {
         $(list[i]).addClass("active");
     }
-
-    $("#pokeUl").animate({ scrollTop: 0 }, "fast");
 }
 
 // return the first visible pokemon in pagination
