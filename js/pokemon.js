@@ -61,7 +61,7 @@ function formatPokeIndex(num) {
 // If no parameters are passed, the default behaviour is to paginate the whole pokemon list from the first pokemon
 //
 function paginateList(list, direction) {
-    var first, start, end;
+    var first, start=0, end=itemsPerPage;
     if (!list) {
         list = $("#pokeUl").find("li");
     } 
@@ -88,12 +88,7 @@ function paginateList(list, direction) {
                 break;
             default:  
         }
-    } else {
-        // default behaviour of paginating the pokemon list from the first pokemon
-        start = 0;
-        end = itemsPerPage;
-    }
-
+    } 
     $(list).removeClass("active");
     for (var i = start; i < end; i++) {
         $(list[i]).addClass("active");
